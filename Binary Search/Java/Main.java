@@ -1,6 +1,6 @@
-import java.util.Arrays;
-
 //BINARY SEARCH FUNCTION
+//RUN THIS PROGRAM USING: java Main.java
+import java.util.Arrays;
 
 public class Main {
 
