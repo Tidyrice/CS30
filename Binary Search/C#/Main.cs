@@ -62,9 +62,6 @@ class BinarySearch {
     //binary search algorithm for strings
     private static int BinarySearchString (string[] sortedArray, string term) {
 
-        //convert the string to a decimal
-        double decimalValue = StringToDouble(term);
-
         int lowerBound = 0;
         int upperBound = sortedArray.Length - 1;
         
@@ -73,21 +70,24 @@ class BinarySearch {
 
             //middleterm of the array in the bounds
             int middleTermIndex = (int) Math.Floor((upperBound + lowerBound) / (decimal) 2);
-            double middleTerm = StringToDouble(sortedArray[middleTermIndex]);
+            string middleTerm = sortedArray[middleTermIndex];
+
+            //comparing value
+            int comparison = String.Compare(middleTerm, term);
 
             //is the array's middle term the one we're trying to find?
-            if (middleTerm == decimalValue)
+            if (comparison == 0)
                 return middleTermIndex;
 
-            //the array's middle term is LARGER than the term in question (term is in bottom half of array)
-            if (middleTerm > Math.Floor(decimalValue)) {
-                upperBound = middleTermIndex - 1;
+            //middle term PRECEEDS wanted term
+            if (comparison < 0) {
+                lowerBound = middleTermIndex + 1;
                 continue;
             } 
 
-            //the array's middle term is SMALLER than the term in question (term is in top half of array)
-            if (middleTerm < Math.Floor(decimalValue)) {
-                lowerBound = middleTermIndex + 1;
+            //middle term FOLLOWS wanted term
+            if (comparison > 0) {
+                upperBound = middleTermIndex - 1;
                 continue;
             }
         }
@@ -95,20 +95,5 @@ class BinarySearch {
         //specified term is not present in array OR array is unsorted
         return -1;
 
-    }
-
-    //function to convert string to decimal
-    private static double StringToDouble(string text) {
-
-        //split string into an array of characters
-        char[] charArray = text.ToCharArray();
-
-        //converts each chararcter to a decimal
-        double decimalValue = 0;
-        for (int i = 0; i < charArray.Length; i++) {
-            decimalValue += charArray[i] * Math.Pow(10, -i);
-        }
-
-        return decimalValue;
     }
 }
