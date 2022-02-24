@@ -1,13 +1,14 @@
 using System;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Searches;
 
 class Program
 {
     //global variables
-    String[] dictionary;
-    String aliceText;
-    String[] aliceWords;
+    static String[] dictionary;
+    static String aliceText;
+    static String[] aliceWords;
 
     public static void Main(string[] args)
     {
@@ -34,7 +35,7 @@ class Program
             Console.WriteLine("  [3] Spell check Alice in Wonderland (linear search)");
             Console.WriteLine("  [4] Spell check Alice in Wonderland (binary search)");
             Console.WriteLine("  [5] Exit");
-            option = Console.ReadLine();
+            option = Int32.Parse(Console.ReadLine());
 
             //check one word (linear)
             if (option == 1) {
@@ -64,52 +65,80 @@ class Program
         //take user input
         Console.WriteLine(" ");
         Console.WriteLine("Word to be checked:");
-        string word = Console.ReadLine();
+        string word = Console.ReadLine().ToLower();
 
-        //get time
-        long beginTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+        //stopwatch
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
 
         int index = 0;
 
         if (typeOfSearch == "linear") {
-            index = LinearSearchString(dictionary, word);
+
+            index = Searches.Searches.LinearSearchString(dictionary, word);
+
         } else {
-            index = BinarySearchString(dictionary, word);
+
+            index = Searches.Searches.BinarySearchString(dictionary, word);
+
         }
 
-        //get time
-        long endTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
+        //stop timer
+        stopwatch.Stop();
 
         //output
-        Console.WriteLine(word + " is in the dictionary at index " + index);
-        Console.WriteLine("Time elapsed: " + endTime - beginTime + " milliseconds");
+        Console.WriteLine(" ");
+        Console.WriteLine("\""+ word + "\" is in the dictionary at index " + index);
+        Console.WriteLine("Time elapsed (" + typeOfSearch + " search): " + stopwatch.Elapsed.TotalMilliseconds + " milliseconds");
     }
 
     //check the whole alice in wonderland script
     private static void AliceInWonderlandCheck(string typeOfSearch) {
 
+        //stopwatch
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
+
+        int wordsNotFound = 0;
+
         if (typeOfSearch == "linear") {
+
+            for (int i = 0; i < aliceWords.Length; i++) {
+                //if word is not present in dictionary, add count to wordsNotFound
+                if (Searches.Searches.LinearSearchString(dictionary, aliceWords[i].ToLower()) == -1)
+                    wordsNotFound++;
+            }
 
         } else {
 
+            for (int i = 0; i < aliceWords.Length; i++) {
+                //if word is not present in dictionary, add count to wordsNotFound
+                if (Searches.Searches.BinarySearchString(dictionary, aliceWords[i].ToLower()) == -1)
+                    wordsNotFound++;
+            }
+
         }
-        
-    } 
+
+        //stop timer
+        stopwatch.Stop();
+
+        //output
+        Console.WriteLine(" ");
+        Console.WriteLine("Number of words not found in dictionary: " + wordsNotFound);
+        Console.WriteLine("Time elapsed (" + typeOfSearch + " search): " + stopwatch.Elapsed.TotalMilliseconds + " milliseconds");
+    }
 }
 
-
-
-
-
+//Linear and Binary searches
 namespace Searches {
 
     public class Searches {
 
         //linear search algorithm for strings
-        public static int LinearSearchString (string [] sortedArray, string term) {
+        public static int LinearSearchString (string[] sortedArray, string term) {
 
             //loop through all the terms of the array
-            for (int i = 0; i < sortedArray.length; i++) {
+            for (int i = 0; i < sortedArray.Length; i++) {
                 if (sortedArray[i] == term)
                     return i;
             }
@@ -122,32 +151,32 @@ namespace Searches {
         //binary search algorithm for strings
         public static int BinarySearchString (string[] sortedArray, string term) {
 
-            //convert the string to a decimal
-            double decimalValue = StringToDouble(term);
-
             int lowerBound = 0;
             int upperBound = sortedArray.Length - 1;
-            
-            //loop until there are no more terms to search
+
+            //the amount of iterations to GUARANTEE finding the term in a SORTED ARRAY is logbase2(length of array)
             while (lowerBound <= upperBound) {
 
                 //middleterm of the array in the bounds
                 int middleTermIndex = (int) Math.Floor((upperBound + lowerBound) / (decimal) 2);
-                double middleTerm = StringToDouble(sortedArray[middleTermIndex]);
+                string middleTerm = sortedArray[middleTermIndex];
+
+                //comparing value
+                int comparison = String.Compare(middleTerm, term);
 
                 //is the array's middle term the one we're trying to find?
-                if (middleTerm == decimalValue)
+                if (comparison == 0)
                     return middleTermIndex;
 
-                //the array's middle term is LARGER than the term in question (term is in bottom half of array)
-                if (middleTerm > Math.Floor(decimalValue)) {
-                    upperBound = middleTermIndex - 1;
-                    continue;
-                } else 
-
-                //the array's middle term is SMALLER than the term in question (term is in top half of array)
-                if (middleTerm < Math.Floor(decimalValue)) {
+                //middle term PRECEEDS wanted term
+                if (comparison < 0) {
                     lowerBound = middleTermIndex + 1;
+                    continue;
+                } 
+
+                //middle term FOLLOWS wanted term
+                if (comparison > 0) {
+                    upperBound = middleTermIndex - 1;
                     continue;
                 }
             }
@@ -155,21 +184,6 @@ namespace Searches {
             //specified term is not present in array OR array is unsorted
             return -1;
 
-        }
-
-        //function to convert string to decimal
-        public static double StringToDouble(string text) {
-
-            //split string into an array of characters
-            char[] charArray = text.ToCharArray();
-
-            //converts each chararcter to a decimal
-            double decimalValue = 0;
-            for (int i = 0; i < charArray.Length; i++) {
-                decimalValue += charArray[i] * Math.Pow(10, -i);
-            }
-
-            return decimalValue;
         }
     }
 }
