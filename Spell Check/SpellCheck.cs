@@ -143,7 +143,7 @@ namespace Searches {
                     return i;
             }
 
-            //specified term is not present in array OR array is unsorted
+            //specified term is not present in array
             return -1;
 
         }
