@@ -25,7 +25,7 @@ class BubbleSort {
             bool swaped = false;
 
             //number of swaps per pass
-            for (int j = 0; j < intArray.Length - 1; j++) {
+            for (int j = 0; j < intArray.Length - 1 - i; j++) {
 
                 //terms to compare
                 int first = intArray[j];
@@ -65,7 +65,7 @@ class BubbleSort {
             bool swaped = false;
 
             //number of swaps per pass
-            for (int j = 0; j < stringArray.Length - 1; j++) {
+            for (int j = 0; j < stringArray.Length - 1 - i; j++) {
 
                 //terms to compare
                 string first = stringArray[j];
