@@ -18,31 +18,25 @@ public class SelectionSort {
     private static int[] SelectionSortIntArray(int[] array) {
 
         //number of passes
-        for (int passes = 0; passes < array.Length; passes++) {
+        for (int fillSlot = 0; fillSlot < array.Length - 1; fillSlot++) {
 
-            //min value trackers
-            int lowestValue = array[passes];
-            int lowestValueIndex = passes;
-
-            //first unsorted term
-            int firstUnsorted = array[passes];
-            int firstUnsortedIndex = passes;
-
+            //min value tracker
+            int lowestValueIndex = fillSlot;
 
             //loop through each term of array
-            for (int i = passes; i < array.Length; i++) {
+            for (int i = fillSlot + 1; i < array.Length; i++) {
 
                 //is this term smaller than the minimum recorded?
-                if (array[i] < lowestValue) {
-                    lowestValue = array[i];
+                if (array[i] < array[lowestValueIndex]) {
                     lowestValueIndex = i;
                 }
 
             }
 
             //swap min value with first unsorted term
-            array[firstUnsortedIndex] = lowestValue;
-            array[lowestValueIndex] = firstUnsorted;
+            int temp = array[fillSlot];
+            array[fillSlot] = array[lowestValueIndex];
+            array[lowestValueIndex] = temp;
 
         }
 
@@ -54,31 +48,25 @@ public class SelectionSort {
     private static string[] SelectionSortStringArray(string[] array) {
 
         //number of passes
-        for (int passes = 0; passes < array.Length; passes++) {
+        for (int fillSlot = 0; fillSlot < array.Length - 1; fillSlot++) {
 
-            //min value trackers
-            string lowestValue = array[passes];
-            int lowestValueIndex = passes;
-
-            //first unsorted term
-            string firstUnsorted = array[passes];
-            int firstUnsortedIndex = passes;
-
+            //min value tracker
+            int lowestValueIndex = fillSlot;
 
             //loop through each term of array
-            for (int i = passes; i < array.Length; i++) {
+            for (int i = fillSlot + 1; i < array.Length; i++) {
 
                 //is this term smaller than the minimum recorded?
-                if (String.Compare(array[i], lowestValue) < 0) {
-                    lowestValue = array[i];
+                if (String.Compare(array[i], array[lowestValueIndex]) < 0) {
                     lowestValueIndex = i;
                 }
 
             }
 
             //swap min value with first unsorted term
-            array[firstUnsortedIndex] = lowestValue;
-            array[lowestValueIndex] = firstUnsorted;
+            string temp = array[fillSlot];
+            array[fillSlot] = array[lowestValueIndex];
+            array[lowestValueIndex] = temp;
 
         }
 
