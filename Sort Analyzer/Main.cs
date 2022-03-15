@@ -23,6 +23,43 @@ class SortAnalyzer {
         Console.WriteLine(stopwatch.Elapsed.TotalMilliseconds + " milliseconds");
     }
 
+    /*private static void WhichOption() {
+
+        int option = -1;
+
+        while (option != 5) {
+            //take user input
+            Console.WriteLine(" ");
+            Console.WriteLine("Please choose an option:");
+            Console.WriteLine("  [1] Spell check single word (linear search)");
+            Console.WriteLine("  [2] Spell check single word (binary search)");
+            Console.WriteLine("  [3] Spell check Alice in Wonderland (linear search)");
+            Console.WriteLine("  [4] Spell check Alice in Wonderland (binary search)");
+            Console.WriteLine("  [5] Exit");
+            option = Int32.Parse(Console.ReadLine());
+
+            //check one word (linear)
+            if (option == 1) {
+                SingleWordCheck("linear");
+            }
+            //check one word (binary)
+            else if (option == 2) 
+            {
+                SingleWordCheck("binary");
+            }
+            //check alice in wonderland (linear)
+            else if (option == 3) 
+            {
+                AliceInWonderlandCheck("linear");
+            }
+            //check alice in wonderland (binary)
+            else if (option == 4) 
+            {
+                AliceInWonderlandCheck("binary");
+            }
+        }
+    }*/
+
     //bubble sort int[]
     private static int[] BubbleSortIntArray(int[] intArray) {
 
@@ -48,7 +85,7 @@ class SortAnalyzer {
 
                     //a swap has occured
                     swaped = true;
-                    
+
                 }
 
             }
