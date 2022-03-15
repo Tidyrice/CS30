@@ -17,44 +17,31 @@ public class InsertionSort {
     //insertion sort int[]
     private static int[] InsertionSortIntArray(int[] array) {
 
-        for (int comparingTerm = 1; comparingTerm < array.Length; comparingTerm++) {
+        for (int i = 1; i < array.Length; i++) {
 
-            //is the final term smaller than the initial term? (terms out of order)
-            if (array[comparingTerm] < array[comparingTerm - 1]) {
+            //value to insert
+            int term = array[i];
 
-                //store the final term
-                int temp = array[comparingTerm];
+            //insert position
+            int pos = i;
 
-                //put the initial term in the final term's slot
-                array[comparingTerm] = array[comparingTerm - 1];
+            //there are elements to the left of the insert position and the test element to the left is > value to insert
+            //array[pos - 1] is the test element
+            while (pos > 0 && array[pos - 1] > term) {
+                
+                //slide the test element to the right
+                array[pos] = array[pos - 1];
 
-                //check with all previous "sorted" elements
-                //int i starts as the index number of the term BEFORE the initial term
-                for (int i = comparingTerm - 2; i > -2; i--) {
+                //decrease the insert position
+                pos--;
 
-                    //reached end of array; int temp is smallest term
-                    if (i == -1) {
-                        array[0] = temp;
-                        break;
-                    }
-
-                    //are the terms out of order?
-                    if (temp < array[i]) {
-
-                        //bring the left term up
-                        array[i + 1] = array[i];
-
-                    } else {
-
-                        //if sorted, replace duplpicate with term and exit out of loop
-                        array[i + 1] = temp;
-                        break;
-
-                    }
-                }
             }
-        }
 
+            //the value to insert is in the right position
+            array[pos] = term;
+
+        }
+        
         return array;
 
     }
@@ -62,44 +49,31 @@ public class InsertionSort {
     //insertion sort string[]
     private static string[] InsertionSortStringArray(string[] array) {
 
-        for (int comparingTerm = 1; comparingTerm < array.Length; comparingTerm++) {
+        for (int i = 1; i < array.Length; i++) {
 
-            //is the final term smaller than the initial term? (terms out of order)
-            if (String.Compare(array[comparingTerm], array[comparingTerm - 1]) < 0) {
+            //value to insert
+            string term = array[i];
 
-                //store the final term
-                string temp = array[comparingTerm];
+            //insert position
+            int pos = i;
 
-                //put the initial term in the final term's slot
-                array[comparingTerm] = array[comparingTerm - 1];
+            //there are elements to the left of the insert position and the test element to the left is > value to insert
+            //array[pos - 1] is the test element
+            while (pos > 0 && string.Compare(term, array[pos - 1]) < 1) {
+                
+                //slide the test element to the right
+                array[pos] = array[pos - 1];
 
-                //check with all previous "sorted" elements
-                //int i starts as the index number of the term BEFORE the initial term
-                for (int i = comparingTerm - 2; i > -2; i--) {
+                //decrease the insert position
+                pos--;
 
-                    //reached end of array; int temp is smallest term
-                    if (i == -1) {
-                        array[0] = temp;
-                        break;
-                    }
-
-                    //are the terms out of order?
-                    if (String.Compare(temp, array[i]) < 0) {
-
-                        //bring the left term up
-                        array[i + 1] = array[i];
-
-                    } else {
-
-                        //if sorted, replace duplpicate with term and exit out of loop
-                        array[i + 1] = temp;
-                        break;
-
-                    }
-                }
             }
-        }
 
+            //the value to insert is in the right position
+            array[pos] = term;
+
+        }
+        
         return array;
 
     }
