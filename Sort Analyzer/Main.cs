@@ -5,69 +5,228 @@ using System.IO;
 using System.Diagnostics;
 
 class SortAnalyzer {
+
+    static int[] randomData;
+    static int[] reversedData;
+    static int[] nearlySortedData;
+    static int[] fewUniqueData;
+
     public static void Main (string[] args) {
-        // LOAD DATA FILES INTO ARRAYS
-        int[] randomData = loadDataArray("data-files/random-values.txt");
-        int[] reversedData = loadDataArray("data-files/reversed-values.txt");
-        int[] nearlySortedData = loadDataArray("data-files/nearly-sorted-values.txt");
-        int[] fewUniqueData = loadDataArray("data-files/few-unique-values.txt");
+
+        //LOAD DATA FILES INTO ARRAYS
+        randomData = loadDataArray("data-files/random-values.txt");
+        reversedData = loadDataArray("data-files/reversed-values.txt");
+        nearlySortedData = loadDataArray("data-files/nearly-sorted-values.txt");
+        fewUniqueData = loadDataArray("data-files/few-unique-values.txt");
         
-        //stopwatch
-        Stopwatch stopwatch = new Stopwatch();
-        stopwatch.Start();
-
-        //stop timer
-        stopwatch.Stop();
-
-        //output
-        Console.WriteLine(stopwatch.Elapsed.TotalMilliseconds + " milliseconds");
+        //run tests
+        testBubble();
+        testSelection();
+        testInsertion();
+        
     }
 
-    /*private static void WhichOption() {
+    private static void testBubble() {
+        
+        Console.WriteLine("");
+        Console.WriteLine("Bubble Sort");
 
-        int option = -1;
+        double time = 0;
+//COPY ORIGINAL ARRAY FIRST TO A DIFFERENT VARIABLE (DEEP COPY)
+        for (int i = 0; i < 10; i++) {
+            int[] array = 
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
 
-        while (option != 5) {
-            //take user input
-            Console.WriteLine(" ");
-            Console.WriteLine("Please choose an option:");
-            Console.WriteLine("  [1] Spell check single word (linear search)");
-            Console.WriteLine("  [2] Spell check single word (binary search)");
-            Console.WriteLine("  [3] Spell check Alice in Wonderland (linear search)");
-            Console.WriteLine("  [4] Spell check Alice in Wonderland (binary search)");
-            Console.WriteLine("  [5] Exit");
-            option = Int32.Parse(Console.ReadLine());
+            BubbleSortIntArray(randomData);
 
-            //check one word (linear)
-            if (option == 1) {
-                SingleWordCheck("linear");
-            }
-            //check one word (binary)
-            else if (option == 2) 
-            {
-                SingleWordCheck("binary");
-            }
-            //check alice in wonderland (linear)
-            else if (option == 3) 
-            {
-                AliceInWonderlandCheck("linear");
-            }
-            //check alice in wonderland (binary)
-            else if (option == 4) 
-            {
-                AliceInWonderlandCheck("binary");
-            }
+            stopwatch.Stop();
+            time += stopwatch.Elapsed.TotalMilliseconds;
         }
-    }*/
+
+        time = time / 10;
+        Console.WriteLine("Random array: average " + time + " milliseconds");
+        time = 0;
+
+        for (int i = 0; i < 10; i++) {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            BubbleSortIntArray(reversedData);
+
+            stopwatch.Stop();
+            time += stopwatch.Elapsed.TotalMilliseconds;
+        }
+
+        time = time / 10;
+        Console.WriteLine("Reversed array: average " + time + " milliseconds");
+        time = 0;
+
+        for (int i = 0; i < 10; i++) {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            BubbleSortIntArray(nearlySortedData);
+
+            stopwatch.Stop();
+            time += stopwatch.Elapsed.TotalMilliseconds;
+        }
+
+        time = time / 10;
+        Console.WriteLine("Nearly sorted array: average " + time + " milliseconds");
+        time = 0;
+
+        for (int i = 0; i < 10; i++) {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            BubbleSortIntArray(fewUniqueData);
+
+            stopwatch.Stop();
+            time += stopwatch.Elapsed.TotalMilliseconds;
+        }
+
+        time = time / 10;
+        Console.WriteLine("Few unique array: average " + time + " milliseconds");
+        time = 0;
+
+    }
+
+    private static void testSelection() {
+        
+        Console.WriteLine("");
+        Console.WriteLine("Selection Sort");
+
+        double time = 0;
+
+        for (int i = 0; i < 10; i++) {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            SelectionSortIntArray(randomData);
+
+            stopwatch.Stop();
+            time += stopwatch.Elapsed.TotalMilliseconds;
+        }
+
+        time = time / 10;
+        Console.WriteLine("Random array: average " + time + " milliseconds");
+        time = 0;
+
+        for (int i = 0; i < 10; i++) {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            SelectionSortIntArray(reversedData);
+
+            stopwatch.Stop();
+            time += stopwatch.Elapsed.TotalMilliseconds;
+        }
+
+        time = time / 10;
+        Console.WriteLine("Reversed array: average " + time + " milliseconds");
+        time = 0;
+
+        for (int i = 0; i < 10; i++) {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            SelectionSortIntArray(nearlySortedData);
+
+            stopwatch.Stop();
+            time += stopwatch.Elapsed.TotalMilliseconds;
+        }
+
+        time = time / 10;
+        Console.WriteLine("Nearly sorted array: average " + time + " milliseconds");
+        time = 0;
+
+        for (int i = 0; i < 10; i++) {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            SelectionSortIntArray(fewUniqueData);
+
+            stopwatch.Stop();
+            time += stopwatch.Elapsed.TotalMilliseconds;
+        }
+
+        time = time / 10;
+        Console.WriteLine("Few unique array: average " + time + " milliseconds");
+        time = 0;
+
+    }
+
+    private static void testInsertion() {
+        
+        Console.WriteLine("");
+        Console.WriteLine("Bubble Sort");
+
+        double time = 0;
+
+        for (int i = 0; i < 10; i++) {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            InsertionSortIntArray(randomData);
+
+            stopwatch.Stop();
+            time += stopwatch.Elapsed.TotalMilliseconds;
+        }
+
+        time = time / 10;
+        Console.WriteLine("Random array: average " + time + " milliseconds");
+        time = 0;
+
+        for (int i = 0; i < 10; i++) {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            InsertionSortIntArray(reversedData);
+
+            stopwatch.Stop();
+            time += stopwatch.Elapsed.TotalMilliseconds;
+        }
+
+        time = time / 10;
+        Console.WriteLine("Reversed array: average " + time + " milliseconds");
+        time = 0;
+
+        for (int i = 0; i < 10; i++) {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            InsertionSortIntArray(nearlySortedData);
+
+            stopwatch.Stop();
+            time += stopwatch.Elapsed.TotalMilliseconds;
+        }
+
+        time = time / 10;
+        Console.WriteLine("Nearly sorted array: average " + time + " milliseconds");
+        time = 0;
+
+        for (int i = 0; i < 10; i++) {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            InsertionSortIntArray(fewUniqueData);
+
+            stopwatch.Stop();
+            time += stopwatch.Elapsed.TotalMilliseconds;
+        }
+
+        time = time / 10;
+        Console.WriteLine("Few unique array: average " + time + " milliseconds");
+        time = 0;
+
+    }
 
     //bubble sort int[]
     private static int[] BubbleSortIntArray(int[] intArray) {
 
         //maximum number of passes it needs
         for (int i = 0; i < intArray.Length - 1; i++) {
-
-            //was there a swap in this pass?
-            bool swaped = false;
 
             //number of swaps per pass
             for (int j = 0; j < intArray.Length - 1 - i; j++) {
@@ -83,17 +242,8 @@ class SortAnalyzer {
                     intArray[j] = second;
                     intArray[j + 1] = first;
 
-                    //a swap has occured
-                    swaped = true;
-
                 }
-
             }
-
-            //no swaps occured in this pass: array is sorted
-            if (!swaped)
-                return intArray;
-
         }
 
         //something weird happened
