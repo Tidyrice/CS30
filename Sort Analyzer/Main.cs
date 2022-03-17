@@ -32,13 +32,16 @@ class SortAnalyzer {
         Console.WriteLine("Bubble Sort");
 
         double time = 0;
-//COPY ORIGINAL ARRAY FIRST TO A DIFFERENT VARIABLE (DEEP COPY)
+
         for (int i = 0; i < 10; i++) {
-            int[] array = 
+            //deep copy of array
+            int[] array = new int[randomData.Length];
+            Array.Copy(randomData, array, randomData.Length);
+
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            BubbleSortIntArray(randomData);
+            BubbleSortIntArray(array);
 
             stopwatch.Stop();
             time += stopwatch.Elapsed.TotalMilliseconds;
@@ -49,10 +52,13 @@ class SortAnalyzer {
         time = 0;
 
         for (int i = 0; i < 10; i++) {
+            int[] array = new int[randomData.Length];
+            Array.Copy(reversedData, array, randomData.Length);
+
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            BubbleSortIntArray(reversedData);
+            BubbleSortIntArray(array);
 
             stopwatch.Stop();
             time += stopwatch.Elapsed.TotalMilliseconds;
@@ -63,10 +69,13 @@ class SortAnalyzer {
         time = 0;
 
         for (int i = 0; i < 10; i++) {
+            int[] array = new int[randomData.Length];
+            Array.Copy(nearlySortedData, array, randomData.Length);
+
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            BubbleSortIntArray(nearlySortedData);
+            BubbleSortIntArray(array);
 
             stopwatch.Stop();
             time += stopwatch.Elapsed.TotalMilliseconds;
@@ -77,10 +86,13 @@ class SortAnalyzer {
         time = 0;
 
         for (int i = 0; i < 10; i++) {
+            int[] array = new int[randomData.Length];
+            Array.Copy(fewUniqueData, array, randomData.Length);
+
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            BubbleSortIntArray(fewUniqueData);
+            BubbleSortIntArray(array);
 
             stopwatch.Stop();
             time += stopwatch.Elapsed.TotalMilliseconds;
@@ -100,10 +112,13 @@ class SortAnalyzer {
         double time = 0;
 
         for (int i = 0; i < 10; i++) {
+            int[] array = new int[randomData.Length];
+            Array.Copy(randomData, array, randomData.Length);
+
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            SelectionSortIntArray(randomData);
+            SelectionSortIntArray(array);
 
             stopwatch.Stop();
             time += stopwatch.Elapsed.TotalMilliseconds;
@@ -114,10 +129,13 @@ class SortAnalyzer {
         time = 0;
 
         for (int i = 0; i < 10; i++) {
+            int[] array = new int[randomData.Length];
+            Array.Copy(reversedData, array, randomData.Length);
+
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            SelectionSortIntArray(reversedData);
+            SelectionSortIntArray(array);
 
             stopwatch.Stop();
             time += stopwatch.Elapsed.TotalMilliseconds;
@@ -128,10 +146,13 @@ class SortAnalyzer {
         time = 0;
 
         for (int i = 0; i < 10; i++) {
+            int[] array = new int[randomData.Length];
+            Array.Copy(nearlySortedData, array, randomData.Length);
+
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            SelectionSortIntArray(nearlySortedData);
+            SelectionSortIntArray(array);
 
             stopwatch.Stop();
             time += stopwatch.Elapsed.TotalMilliseconds;
@@ -142,10 +163,13 @@ class SortAnalyzer {
         time = 0;
 
         for (int i = 0; i < 10; i++) {
+            int[] array = new int[randomData.Length];
+            Array.Copy(fewUniqueData, array, randomData.Length);
+
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            SelectionSortIntArray(fewUniqueData);
+            SelectionSortIntArray(array);
 
             stopwatch.Stop();
             time += stopwatch.Elapsed.TotalMilliseconds;
@@ -160,15 +184,18 @@ class SortAnalyzer {
     private static void testInsertion() {
         
         Console.WriteLine("");
-        Console.WriteLine("Bubble Sort");
+        Console.WriteLine("Insertion Sort");
 
         double time = 0;
 
         for (int i = 0; i < 10; i++) {
+            int[] array = new int[randomData.Length];
+            Array.Copy(randomData, array, randomData.Length);
+
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            InsertionSortIntArray(randomData);
+            InsertionSortIntArray(array);
 
             stopwatch.Stop();
             time += stopwatch.Elapsed.TotalMilliseconds;
@@ -179,10 +206,13 @@ class SortAnalyzer {
         time = 0;
 
         for (int i = 0; i < 10; i++) {
+            int[] array = new int[randomData.Length];
+            Array.Copy(reversedData, array, randomData.Length);
+
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            InsertionSortIntArray(reversedData);
+            InsertionSortIntArray(array);
 
             stopwatch.Stop();
             time += stopwatch.Elapsed.TotalMilliseconds;
@@ -193,10 +223,13 @@ class SortAnalyzer {
         time = 0;
 
         for (int i = 0; i < 10; i++) {
+            int[] array = new int[randomData.Length];
+            Array.Copy(nearlySortedData, array, randomData.Length);
+
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            InsertionSortIntArray(nearlySortedData);
+            InsertionSortIntArray(array);
 
             stopwatch.Stop();
             time += stopwatch.Elapsed.TotalMilliseconds;
@@ -207,10 +240,13 @@ class SortAnalyzer {
         time = 0;
 
         for (int i = 0; i < 10; i++) {
+            int[] array = new int[randomData.Length];
+            Array.Copy(fewUniqueData, array, randomData.Length);
+
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            InsertionSortIntArray(fewUniqueData);
+            InsertionSortIntArray(array);
 
             stopwatch.Stop();
             time += stopwatch.Elapsed.TotalMilliseconds;
