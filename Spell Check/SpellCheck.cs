@@ -88,7 +88,11 @@ class Program
 
         //output
         Console.WriteLine(" ");
-        Console.WriteLine("\""+ word + "\" is in the dictionary at index " + index);
+
+        if (index != -1)
+            Console.WriteLine("\""+ word + "\" is in the dictionary at index " + index);
+        else
+            Console.WriteLine("\""+ word + "\" is not in the dictionary");
         Console.WriteLine("Time elapsed (" + typeOfSearch + " search): " + stopwatch.Elapsed.TotalMilliseconds + " milliseconds");
     }
 
