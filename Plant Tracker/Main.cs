@@ -1,34 +1,68 @@
 using System;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Diagnostics;
+using System.Web.Script.Serialization;
 
 public class PlantTracker {
 
+    public static User[] users;
+
     public static void Main(string[] args) {
 
-        // Load data into array
-        User[] users = LoadData();
+        //save file exists
+        if (System.IO.File.Exists(@"data/users.json")) 
+        {
 
+        }
+
+        //save file does not exist
+        else 
+        {
+            users = new User[0];
+            HomeScreen();
+        }
+
+        // Load data into array
+        //users = LoadData();
+
+
+    }
+
+    //HOMESCREEN
+    public static void HomeScreen() {
+
+        Console.WriteLine(" ");
+        Console.WriteLine("Please select a user or add a user");
+
+//EDIT THIS TO ACCEPT RESPONSES!!!!!!!!!!!!!
+        //list the users
+        for (int i = 0; i < users.Length; i++) {
+
+            Console.WriteLine("[" + i + "] " + users[i].username);
+
+        }
+
+        Console.WriteLine("[" + users.Length + "] Add user");
 
     }
 
     //save the users and their plants to a JSON
     public static void SaveData(User[] users) {
 
-        string json = JsonSerializer.Serialize(users);
-        File.WriteAllText(@"data/users.json", json);
+        string json = new JavaScriptSerializer().Serialize(users);
+        System.IO.File.WriteAllText(@"data/users.json", json);
 
     }
 
     //load the saved data
     public static User[] LoadData() {
 
-        string json = File.ReadAllText(@"data/users.json");
-        User[] users = JsonSerializer.Deserialize<User[]>(json);
+        string json = System.IO.File.ReadAllText(@"data/users.json");
+        User[] users = new JavaScriptSerializer().Deserialize<User[]>(json);
 
         return users;
 
     }
+
 }
 
 public class Plant {
