@@ -30,19 +30,28 @@ public class PlantTracker {
     //HOMESCREEN
     public static void HomeScreen() {
 
-        Console.WriteLine(" ");
-        Console.WriteLine("Please select a user or add a user");
+        //EDIT THIS TO ACCEPT RESPONSES!!!!!!!!!!!!!
+        int choice = -1;
 
-//EDIT THIS TO ACCEPT RESPONSES!!!!!!!!!!!!!
-        //list the users
-        for (int i = 0; i < users.Length; i++) {
+        while (i >= 0 && i <= users.Length) {
 
-            Console.WriteLine("[" + i + "] " + users[i].username);
+            Console.WriteLine(" ");
+            Console.WriteLine("Please select a user or add a user");
+
+            //list the users
+            for (int i = 0; i < users.Length; i++) {
+
+                Console.WriteLine("[" + i + "] " + users[i].username);
+
+            }
+
+            //add user option
+            Console.WriteLine("[" + users.Length + "] Add user");
+
+            //take input
+            choice = Int32.Parse(Console.ReadLine());
 
         }
-
-        Console.WriteLine("[" + users.Length + "] Add user");
-
     }
 
     //save the users and their plants to a JSON
