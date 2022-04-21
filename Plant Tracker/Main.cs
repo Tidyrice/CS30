@@ -23,17 +23,16 @@ public class PlantTracker {
 
         // Load data into array
         //users = LoadData();
-
-
+        
     }
 
     //HOMESCREEN
     public static void HomeScreen() {
-
-        //EDIT THIS TO ACCEPT RESPONSES!!!!!!!!!!!!!
+        
         int choice = -1;
 
-        while (i >= 0 && i <= users.Length) {
+        //if the choice number does not match any of the options, repeat
+        while (choice < 0 || choice > users.Length) {
 
             Console.WriteLine(" ");
             Console.WriteLine("Please select a user or add a user");
@@ -51,7 +50,30 @@ public class PlantTracker {
             //take input
             choice = Int32.Parse(Console.ReadLine());
 
+            //user selects the "add user" option
+            if (choice == users.Length) {
+
+                Console.WriteLine(" ");
+                Console.WriteLine("Please provide a username for the new user");
+
+                //get the username
+                string username = Console.ReadLine();
+
+                //resize users array
+                Array.Resize(ref users, users.Length + 1);
+
+                //put new user into last position
+                users[users.Length - 1] = new User {
+
+                    username = username
+
+                };
+
+            }
+
+        //end of while loop
         }
+
     }
 
     //save the users and their plants to a JSON
