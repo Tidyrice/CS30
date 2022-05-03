@@ -25,34 +25,10 @@ public class CharacterClass {
         };
 
         //requests
-        Speak(ezreal, 2);
-        Speak(brayden, 1);
-        SetLevel(brayden, 68);
+        ezreal.Speak(2);
+        brayden.Speak(1);
+        brayden.SetLevel(68);
 
-    }
-
-    private static void Speak(Character character, int phraseNum) {
-
-        if (phraseNum == 1) {
-
-            Console.WriteLine(character.name + ": " + character.phrase1);
-
-        } else if (phraseNum == 2) {
-
-            Console.WriteLine(character.name + ": " + character.phrase2);
-
-        } else {
-            
-            Console.WriteLine("No such phrase number");
-
-        }
-    }
-
-    private static void SetLevel(Character character, int newLevel) {
-
-        character.level = newLevel;
-
-        Console.WriteLine("New level for " + character.name + ": " + character.level);
     }
 
 }
@@ -63,5 +39,31 @@ public class Character {
     public string phrase1;
     public string phrase2;
     public int level;
+
+    public void Speak(int phraseNum) {
+
+        if (phraseNum == 1) {
+
+            Console.WriteLine(name + ": " + phrase1);
+
+        } else if (phraseNum == 2) {
+
+            Console.WriteLine(name + ": " + phrase2);
+
+        } else {
+            
+            Console.WriteLine("No such phrase number");
+
+        }
+
+    }
+
+    public void SetLevel(int newLevel) {
+
+        level = newLevel;
+
+        Console.WriteLine("New level for " + name + ": " + level);
+
+    }
 
 }
