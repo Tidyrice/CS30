@@ -5,28 +5,13 @@ public class BackpackClass {
     public static void Main(string[] args) {
 
         //small blue backpack
-        Backpack smallBlue = new Backpack() {
-
-            colour = "blue",
-            size = "small"
-
-        };
+        Backpack smallBlue = new Backpack("blue", "small");
 
         //medium red backpack
-        Backpack mediumRed = new Backpack() {
-
-            colour = "red",
-            size = "medium"
-
-        };
+        Backpack mediumRed = new Backpack("red", "medium");
 
         //large green backpack
-        Backpack largeGreen = new Backpack() {
-
-            colour = "green",
-            size = "large"
-
-        };
+        Backpack largeGreen = new Backpack("green", "large");
 
         //requests
         smallBlue.OpenBag();
@@ -47,6 +32,14 @@ public class Backpack {
     public string colour;
     public string size;
     public string[] items = new string[0];
+
+    //constructor
+    public Backpack(string colourConstructor, string sizeConstructor) {
+
+        colour = colourConstructor;
+        size = sizeConstructor;
+
+    }
 
     public void OpenBag() {
 

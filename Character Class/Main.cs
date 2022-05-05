@@ -5,24 +5,10 @@ public class CharacterClass {
     public static void Main(string[] args) {
 
         //initiate first character
-        Character ezreal = new Character {
-
-            name = "Ezreal",
-            phrase1 = "You belong in a museum!",
-            phrase2 = "CRIMSON COBALT!!!",
-            level = 18
-
-        };
+        Character ezreal = new Character("Ezreal", "You belong in a museum!", "CRIMSON COBALT!!!", 18);
 
         //initiate second character
-        Character brayden = new Character {
-
-            name = "Brayden",
-            phrase1 = "*cough cough sputter sputter*",
-            phrase2 = "I don't SAY THAT.",
-            level = -1
-
-        };
+        Character brayden = new Character("Brayden", "*cough cough sputter sputter*", "I don't SAY THAT.", 1);
 
         //requests
         ezreal.Speak(2);
@@ -39,6 +25,16 @@ public class Character {
     public string phrase1;
     public string phrase2;
     public int level;
+
+    //constructor
+    public Character (string nameConstructor, string phrase1Constructor, string phrase2Constructor, int levelConstructor) {
+
+        name = nameConstructor;
+        phrase1 = phrase1Constructor;
+        phrase2 = phrase2Constructor;
+        level = levelConstructor;
+
+    }
 
     public void Speak(int phraseNum) {
 
