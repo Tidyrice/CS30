@@ -1,10 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Web.Script.Serialization;
 
 public class PlantTracker {
 
-    public static User[] users;
+    public static List<User> users;
 
     public static void Main(string[] args) {
 
@@ -21,7 +22,7 @@ public class PlantTracker {
         else 
         {
 
-            users = new User[0];
+            users = new List<User>();
             HomeScreen();
 
         }
@@ -35,36 +36,40 @@ public class PlantTracker {
         int choice = -1;
 
         //if the choice number does not match any of the options, repeat
-        while (choice < 0 || choice > users.Length + 1) {
+        while (choice < 0 || choice > users.Count + 1) {
 
             Console.WriteLine(" ");
             Console.WriteLine("Please select a user or add a user");
 
             //list the users
-            for (int i = 0; i < users.Length; i++) {
+            for (int i = 0; i < users.Count; i++) {
 
                 Console.WriteLine("[" + i + "] " + users[i].username);
 
             }
 
             //add user option
-            Console.WriteLine("[" + users.Length + "] Add user");
+            Console.WriteLine("[" + users.Count + "] Add user");
 
             //exit application option
-            Console.WriteLine("[" + (users.Length + 1) + "] Exit");
+            Console.WriteLine("[" + (users.Count + 1) + "] Exit");
 
             //take input
             choice = Int32.Parse(Console.ReadLine());
 
+            //is this a bogus input?
+            if (choice < 0 || choice > users.Count + 1)
+                continue;
+
             //user selects the "add user" option
-            if (choice == users.Length) {
+            if (choice == users.Count) {
 
                 AddUser();
 
             } 
             
             //user selects the "exit option
-            else if (choice == users.Length + 1) {
+            else if (choice == users.Count + 1) {
 
                 return;
 
@@ -98,7 +103,7 @@ public class PlantTracker {
         string username = "";
 
         //wait until they input an actual username
-        while (username == "") {
+        while (String.IsNullOrWhiteSpace(username) == true) {
 
             Console.WriteLine(" ");
             Console.WriteLine("Please provide a username for the new user");
@@ -110,15 +115,8 @@ public class PlantTracker {
 
         }
 
-        //resize users array
-        Array.Resize(ref users, users.Length + 1);
-
-        //put new user into last position
-        users[users.Length - 1] = new User {
-
-            username = username
-
-        };
+        //add new user to the array
+        users.Add(new User(username));
 
         SaveData();
         HomeScreen();
@@ -134,10 +132,10 @@ public class PlantTracker {
     }
 
     //load the saved data
-    private static User[] LoadData() {
+    private static List<User> LoadData() {
 
         string json = System.IO.File.ReadAllText(@"users.json");
-        User[] users = new JavaScriptSerializer().Deserialize<User[]>(json);
+        List<User> users = new JavaScriptSerializer().Deserialize<List<User>>(json);
 
         return users;
 
@@ -153,11 +151,26 @@ public class Plant {
     public DateTime lastFertilized;
     public string[][] journal;
 
+    //constructor
+    public Plant() {
+
+    }
+
 }
 
 public class User {
 
     public string username;
     public Plant[] plants;
+
+    //empty default constructor
+    public User() {}
+    
+    //overloaded constructor
+    public User(string name) {
+
+        username = name;
+
+    }
 
 }
