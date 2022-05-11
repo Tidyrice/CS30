@@ -35,10 +35,11 @@ public class PlantTracker {
         
         int choice = -1;
 
-        //if the choice number does not match any of the options, repeat
-        while (choice < 0 || choice > users.Count + 1) {
+        //loop until the user exits
+        while (true) {
 
             Console.WriteLine(" ");
+            Console.WriteLine("Welcome! It is " + DateTime.Now.ToString());
             Console.WriteLine("Please select a user or add a user");
 
             //list the users
@@ -51,34 +52,39 @@ public class PlantTracker {
             //add user option
             Console.WriteLine("[" + users.Count + "] Add user");
 
+            //delete user option
+            Console.WriteLine("[" + (users.Count + 1) + "] Delete user");
+
             //exit application option
-            Console.WriteLine("[" + (users.Count + 1) + "] Exit");
+            Console.WriteLine("[" + (users.Count + 2) + "] Exit");
 
             //take input
             choice = Int32.Parse(Console.ReadLine());
 
-            //is this a bogus input?
-            if (choice < 0 || choice > users.Count + 1)
-                continue;
+            //an existing user is selected
+            if (choice >= 0 && choice < users.Count) {
 
-            //user selects the "add user" option
-            if (choice == users.Count) {
-
-                AddUser();
-
-            } 
-            
-            //user selects the "exit option
-            else if (choice == users.Count + 1) {
-
-                return;
+                PlantScreen(choice);
 
             }
 
-            //an existing user is selected
-            else {
+            //user selects the "add user" option
+            else if (choice == users.Count) {
 
-                PlantScreen(choice);
+                AddUser();
+
+            }
+
+            else if (choice == users.Count + 1) {
+
+                DeleteUser();
+
+            }
+            
+            //user selects the "exit option
+            else if (choice == users.Count + 2) {
+
+                return;
 
             }
 
@@ -93,7 +99,8 @@ public class PlantTracker {
         //get the current user
         User currentUser = users[userIndex];
 
-        
+        Console.WriteLine(" ");
+        Console.WriteLine("Welcome, " + currentUser.username);
 
     }
 
@@ -103,7 +110,7 @@ public class PlantTracker {
         string username = "";
 
         //wait until they input an actual username
-        while (String.IsNullOrWhiteSpace(username) == true) {
+        while (String.IsNullOrWhiteSpace(username) == true || username == "Add user" || username == "Delete user" || username == "Exit") {
 
             Console.WriteLine(" ");
             Console.WriteLine("Please provide a username for the new user");
@@ -119,7 +126,14 @@ public class PlantTracker {
         users.Add(new User(username));
 
         SaveData();
-        HomeScreen();
+
+    }
+
+    private static void DeleteUser() {
+        
+        //COMPLETE THIS SECTION
+
+        SaveData();
 
     }
 
@@ -151,22 +165,48 @@ public class Plant {
     public DateTime lastFertilized;
     public string[][] journal;
 
-    //constructor
-    public Plant() {
+    //empty default constructor
+    public Plant() {}
+
+    //creating plant constructor
+    public Plant(string Name) {
+
+        name = Name;
+        datePlanted = DateTime.Now;
 
     }
+
+    //water plant
+    public void WaterPlant() {
+
+        lastWatered = DateTime.Now;
+
+    }
+
+    //fertilize plant
+    public void FertilizePlant() {
+
+        lastFertilized = DateTime.Now;
+
+    }
+
+    //new journal entry
+
+    //delete journal entry
+
+    //view journal entries
 
 }
 
 public class User {
 
     public string username;
-    public Plant[] plants;
+    public List<Plant> plants;
 
     //empty default constructor
     public User() {}
     
-    //overloaded constructor
+    //new user constructor
     public User(string name) {
 
         username = name;
