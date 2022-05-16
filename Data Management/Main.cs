@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Web.Script.Serialization;
 
-public class PlantTracker {
+public class DataManagement {
 
     public static List<User> users;
 
@@ -38,8 +35,7 @@ public class PlantTracker {
         while (true) {
 
             Console.WriteLine(" ");
-            Console.WriteLine("Welcome! It is " + DateTime.Now.ToString());
-            Console.WriteLine("Please select a user or add a user.");
+            Console.WriteLine("Welcome! Please select a user or add a user");
 
             //list the users
             for (int i = 0; i < users.Count; i++) {
@@ -63,7 +59,7 @@ public class PlantTracker {
             //an existing user is selected
             if (choice >= 0 && choice < users.Count) {
 
-                PlantScreen(choice);
+                OptionsScreen(choice);
 
             }
 
@@ -93,13 +89,13 @@ public class PlantTracker {
     }
 
     //load existing user
-    private static void PlantScreen(int userIndex) {
+    private static void OptionsScreen(int userIndex) {
 
         //get the current user
         User currentUser = users[userIndex];
 
         Console.WriteLine(" ");
-        Console.WriteLine("Welcome, " + currentUser.username + ".");
+        Console.WriteLine("Welcome, " + currentUser.username);
 
     }
 
@@ -112,12 +108,10 @@ public class PlantTracker {
         while (String.IsNullOrWhiteSpace(username) == true || username == "Add user" || username == "Delete user" || username == "Exit") {
 
             Console.WriteLine(" ");
-            Console.WriteLine("Please provide a username for the new user.");
+            Console.WriteLine("Please provide a username for the new user");
 
             //get the username
             username = Console.ReadLine();
-
-            //*****BONUS: MAKE IT ILLEGAL TO HAVE DUPLICATE USERS*****
 
         }
 
@@ -130,41 +124,9 @@ public class PlantTracker {
 
     private static void DeleteUser() {
         
-        //are there any users to delete?
-        if (users.Count == 0) {
+        //COMPLETE THIS SECTION
 
-            Console.WriteLine(" ");
-            Console.WriteLine("There are no users to delete.");
-            return;
-
-        }
-
-        int choice = -1;
-
-        while (true) {
-
-            Console.WriteLine(" ");
-            Console.WriteLine("Please select a user to delete.");
-
-            //list the users
-            for (int i = 0; i < users.Count; i++) {
-
-                Console.WriteLine("[" + i + "] " + users[i].username);
-
-            }
-
-            //take input
-            choice = Int32.Parse(Console.ReadLine());
-
-            if (choice >= 0 && choice < users.Count) {
-
-                users.RemoveAt(choice);
-                SaveData();
-                return;
-
-            }
-
-        }
+        SaveData();
 
     }
 
@@ -188,54 +150,15 @@ public class PlantTracker {
 
 }
 
-public class Plant {
+public class Song {
 
-    public string name;
-    public DateTime datePlanted;
-    public DateTime lastWatered;
-    public DateTime lastFertilized;
-    //public List<ArrayList> journal;
+    public string title;
+    public string artist;
+    public string genre;
+    public int yearPublished;
 
     //empty default constructor
-    public Plant() {}
-
-    //creating plant constructor
-    public Plant(string name) {
-
-        this.name = name;
-        datePlanted = DateTime.Now;
-        //journal = new List<ArrayList>();
-
-    }
-
-    //water plant
-    public void WaterPlant() {
-
-        lastWatered = DateTime.Now;
-
-    }
-
-    //fertilize plant
-    public void FertilizePlant() {
-
-        lastFertilized = DateTime.Now;
-
-    }
-
-    //new journal entry
-    public void NewJournalEntry() {
-
-    }
-
-    //delete journal entry
-    public void DeleteJournalEntry() {
-
-    }
-
-    //view journal entries
-    public void ViewJournalEntries() {
-
-    }
+    public Song() {}
 
 }
 
@@ -248,9 +171,9 @@ public class User {
     public User() {}
     
     //new user constructor
-    public User(string username) {
+    public User(string name) {
 
-        this.username = username;
+        username = name;
 
     }
 
