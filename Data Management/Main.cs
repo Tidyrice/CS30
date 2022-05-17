@@ -1,10 +1,18 @@
 using System;
+using System.Collections.Generic;
+using System.Web.Script.Serialization;
+using System.Linq;
 
 public class DataManagement {
 
     public static List<User> users;
+    public static List<Song> songs;
 
     public static void Main(string[] args) {
+
+        //load song library
+        string json = System.IO.File.ReadAllText(@"users.json");
+        songs = new JavaScriptSerializer().Deserialize<List<Song>>(json);
 
         //save file exists
         if (System.IO.File.Exists(@"users.json")) 
@@ -24,6 +32,11 @@ public class DataManagement {
 
         }
 
+        /*
+        order = new List<Song>();
+        order = songs.OrderBy(o=>o.artist).ToList();
+        */
+
     }
 
     //HOMESCREEN
@@ -35,7 +48,7 @@ public class DataManagement {
         while (true) {
 
             Console.WriteLine(" ");
-            Console.WriteLine("Welcome! Please select a user or add a user");
+            Console.WriteLine("Please select a user or add a user");
 
             //list the users
             for (int i = 0; i < users.Count; i++) {
@@ -59,7 +72,7 @@ public class DataManagement {
             //an existing user is selected
             if (choice >= 0 && choice < users.Count) {
 
-                OptionsScreen(choice);
+                LoadUser(choice);
 
             }
 
@@ -89,13 +102,27 @@ public class DataManagement {
     }
 
     //load existing user
-    private static void OptionsScreen(int userIndex) {
+    private static void LoadUser(int userIndex) {
 
         //get the current user
         User currentUser = users[userIndex];
 
         Console.WriteLine(" ");
-        Console.WriteLine("Welcome, " + currentUser.username);
+        Console.WriteLine("Welcome, " + currentUser.username + "!");
+
+        //options
+        while (true) {
+
+            Console.WriteLine(" ");
+            Console.WriteLine("Please select an option");
+
+            Console.WriteLine("[1] Display all songs");
+            Console.WriteLine("[2] Filter songs");
+            Console.WriteLine("[3] Add songs to favourites list");
+            Console.WriteLine("[4] Remove songs from favourite list");
+            Console.WriteLine("[5] Display favourites list");
+
+        }
 
     }
 
@@ -124,9 +151,41 @@ public class DataManagement {
 
     private static void DeleteUser() {
         
-        //COMPLETE THIS SECTION
+        //are there any users to delete?
+        if (users.Count == 0) {
 
-        SaveData();
+            Console.WriteLine(" ");
+            Console.WriteLine("There are no users to delete.");
+            return;
+
+        }
+
+        int choice = -1;
+
+        while (true) {
+
+            Console.WriteLine(" ");
+            Console.WriteLine("Please select a user to delete.");
+
+            //list the users
+            for (int i = 0; i < users.Count; i++) {
+
+                Console.WriteLine("[" + i + "] " + users[i].username);
+
+            }
+
+            //take input
+            choice = Int32.Parse(Console.ReadLine());
+
+            if (choice >= 0 && choice < users.Count) {
+
+                users.RemoveAt(choice);
+                SaveData();
+                return;
+
+            }
+
+        }
 
     }
 
@@ -160,20 +219,47 @@ public class Song {
     //empty default constructor
     public Song() {}
 
+    //new song constructor
+    public Song (string title, string artist, string genre, int yearPublished) {
+
+        this.title = title;
+        this.artist = artist;
+        this.genre = genre;
+        this.yearPublished = yearPublished;
+
+    }
+
 }
 
 public class User {
 
     public string username;
-    public List<Plant> plants;
+    public List<Song> favourites;
 
     //empty default constructor
     public User() {}
     
     //new user constructor
-    public User(string name) {
+    public User(string username) {
 
-        username = name;
+        this.username = username;
+
+    }
+
+    //add a song to favourites
+    public void AddFavourite(Song song) {
+
+        favourites.Add(song);
+
+    }
+
+    public void DisplayFavourites() {
+
+        for (int i = 0; i < favourites.Count; i++) {
+
+            Console.Write((i + 1) + ". " + favourites[i].title + ", by " + favourites[i].artist);
+
+        }
 
     }
 

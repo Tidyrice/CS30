@@ -38,7 +38,7 @@ public class PlantTracker {
         while (true) {
 
             Console.WriteLine(" ");
-            Console.WriteLine("Welcome! It is " + DateTime.Now.ToString());
+            Console.WriteLine("It is " + DateTime.Now.ToString());
             Console.WriteLine("Please select a user or add a user.");
 
             //list the users
@@ -63,7 +63,7 @@ public class PlantTracker {
             //an existing user is selected
             if (choice >= 0 && choice < users.Count) {
 
-                PlantScreen(choice);
+                LoadUser(choice);
 
             }
 
@@ -93,13 +93,13 @@ public class PlantTracker {
     }
 
     //load existing user
-    private static void PlantScreen(int userIndex) {
+    private static void LoadUser(int userIndex) {
 
         //get the current user
         User currentUser = users[userIndex];
 
         Console.WriteLine(" ");
-        Console.WriteLine("Welcome, " + currentUser.username + ".");
+        Console.WriteLine("Welcome, " + currentUser.username + "!");
 
     }
 
