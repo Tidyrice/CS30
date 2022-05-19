@@ -11,7 +11,7 @@ public class DataManagement {
     public static void Main(string[] args) {
 
         //load song library
-        string json = System.IO.File.ReadAllText(@"users.json");
+        string json = System.IO.File.ReadAllText(@"songs.json");
         songs = new JavaScriptSerializer().Deserialize<List<Song>>(json);
 
         //save file exists
@@ -41,8 +41,6 @@ public class DataManagement {
 
     //HOMESCREEN
     public static void HomeScreen() {
-        
-        int choice = -1;
 
         //loop until the user exits
         while (true) {
@@ -67,7 +65,7 @@ public class DataManagement {
             Console.WriteLine("[" + (users.Count + 2) + "] Exit");
 
             //take input
-            choice = Int32.Parse(Console.ReadLine());
+            int choice = Int32.Parse(Console.ReadLine());
 
             //an existing user is selected
             if (choice >= 0 && choice < users.Count) {
@@ -83,6 +81,7 @@ public class DataManagement {
 
             }
 
+            //user selects the "delete user" option
             else if (choice == users.Count + 1) {
 
                 DeleteUser();
@@ -116,12 +115,47 @@ public class DataManagement {
             Console.WriteLine(" ");
             Console.WriteLine("Please select an option");
 
-            Console.WriteLine("[1] Display all songs");
-            Console.WriteLine("[2] Filter songs");
-            Console.WriteLine("[3] Add songs to favourites list");
-            Console.WriteLine("[4] Remove songs from favourite list");
-            Console.WriteLine("[5] Display favourites list");
+            Console.WriteLine("[0] Display all songs");
+            Console.WriteLine("[1] Display songs by genre");
+            Console.WriteLine("[2] Add song to favourites list");
+            Console.WriteLine("[3] Remove song from favourites list");
+            Console.WriteLine("[4] Display favourites list");
+            Console.WriteLine("[5] Logout");
 
+            //take input
+            int choice = Int32.Parse(Console.ReadLine());
+
+            switch (choice) {
+
+                case 0:
+                    DisplayAllSongs();
+                    break;
+
+                case 1:
+                    DisplaySongsByGenre();
+                    break;
+
+                case 2:
+                    AddSongToFavourites(currentUser);
+                    break;
+
+                case 3:
+                    RemoveSongFromFavourites(currentUser);
+                    break;
+
+                case 4:
+                    currentUser.DisplayFavourites();
+                    break;
+
+                case 5:
+                    //logout
+                    return;
+
+                default:
+                    break;
+            }
+
+        //end of while loop
         }
 
     }
@@ -189,6 +223,82 @@ public class DataManagement {
 
     }
 
+    public static void DisplayAllSongs() {
+
+        Console.WriteLine(" ");
+
+        for (int i = 0; i < songs.Count; i++) {
+
+            Console.WriteLine((i + 1) + ". " + songs[i].title + ", by " + songs[i].artist);
+
+        }
+
+    }
+
+    public static void DisplaySongsByGenre() {
+
+        Console.WriteLine(" ");
+        Console.WriteLine("Please enter a genre to search.");
+
+        //get user input
+        string input = Console.ReadLine();
+
+        Console.WriteLine(" ");
+        Console.WriteLine("Songs with genre \"" + input + "\":");
+
+        //display all songs with the same genre
+        int count = 1;
+
+        for (int i = 0; i < songs.Count; i++) {
+
+            if (songs[i].genre.ToLower() == input.ToLower()) {
+
+                Console.WriteLine(count + ". " + songs[i].title + ", by " + songs[i].artist);
+                count++;
+
+            }
+
+        }
+
+    }
+
+    public static void AddSongToFavourites(User user) {
+
+        Console.WriteLine(" ");
+        Console.WriteLine("Please enter the song title to be added.");
+
+        //get user input
+        string input = Console.ReadLine();
+
+        //search for matches
+        for (int i = 0; i < songs.Count; i++) {
+
+            if (songs[i].title.ToLower() == input.ToLower()) {
+
+                user.AddFavourite(songs[i]);
+
+                Console.WriteLine(" ");
+                Console.WriteLine(songs[i].title + ", by " + songs[i].artist + " added to your favourites.");
+                
+                SaveData();
+                return;
+
+            }
+
+        }
+
+        //no matches
+        Console.WriteLine(" ");
+        Console.WriteLine("No matches found.");
+
+    }
+
+    public static void RemoveSongFromFavourites(User user) {
+
+
+
+    }
+
     //save the users and their plants to a JSON
     private static void SaveData() {
 
@@ -243,6 +353,7 @@ public class User {
     public User(string username) {
 
         this.username = username;
+        favourites = new List<Song>();
 
     }
 
@@ -257,10 +368,15 @@ public class User {
 
         for (int i = 0; i < favourites.Count; i++) {
 
-            Console.Write((i + 1) + ". " + favourites[i].title + ", by " + favourites[i].artist);
+            Console.WriteLine((i + 1) + ". " + favourites[i].title + ", by " + favourites[i].artist);
 
         }
 
+    }
+
+    public void LOL() {
+
+        Console.WriteLine("HHHH");
     }
 
 }
