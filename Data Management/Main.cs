@@ -104,10 +104,26 @@ public class DataManagement {
     private static void LoadUser(int userIndex) {
 
         //get the current user
-        User currentUser = users[userIndex];
+        User user = users[userIndex];
 
         Console.WriteLine(" ");
-        Console.WriteLine("Welcome, " + currentUser.username + "!");
+        Console.WriteLine("Welcome, " + user.username + "!");
+
+        //login
+        Console.WriteLine("Please enter your password");
+        string password = Console.ReadLine();
+
+        //verification
+        if (password != user.password) {
+
+            Console.WriteLine(" ");
+            Console.WriteLine("Incorrect password!");
+            return;
+
+        }
+
+        Console.WriteLine(" ");
+        Console.WriteLine("Verification successful.");
 
         //options
         while (true) {
@@ -136,15 +152,15 @@ public class DataManagement {
                     break;
 
                 case 2:
-                    AddSongToFavourites(currentUser);
+                    AddSongToFavourites(user);
                     break;
 
                 case 3:
-                    RemoveSongFromFavourites(currentUser);
+                    RemoveSongFromFavourites(user);
                     break;
 
                 case 4:
-                    currentUser.DisplayFavourites();
+                    user.DisplayFavourites();
                     break;
 
                 case 5:
@@ -176,8 +192,22 @@ public class DataManagement {
 
         }
 
+        string password = "";
+
+        //wait until they input an actual password
+        while (String.IsNullOrWhiteSpace(password) == true) {
+
+            Console.WriteLine(" ");
+            Console.WriteLine("Please provide a password for " + username);
+
+            //get the username
+            password = Console.ReadLine();
+
+        }
+
+
         //add new user to the array
-        users.Add(new User(username));
+        users.Add(new User(username, password));
 
         SaveData();
 
@@ -212,6 +242,9 @@ public class DataManagement {
             choice = Int32.Parse(Console.ReadLine());
 
             if (choice >= 0 && choice < users.Count) {
+
+                Console.WriteLine(" ");
+                Console.WriteLine("User deleted.");
 
                 users.RemoveAt(choice);
                 SaveData();
@@ -260,6 +293,13 @@ public class DataManagement {
 
         }
 
+        //if there are no songs
+        if (count == 1) {
+
+            Console.WriteLine("No matches found.");
+
+        }
+
     }
 
     public static void AddSongToFavourites(User user) {
@@ -272,17 +312,27 @@ public class DataManagement {
 
         //search for matches
         for (int i = 0; i < songs.Count; i++) {
-
-            if (songs[i].title.ToLower() == input.ToLower()) {
-
-                user.AddFavourite(songs[i]);
+            
+            //if there is a match and the song is not already in the user's favourites list
+            if (songs[i].title.ToLower() == input.ToLower() && user.favourites.IndexOf(songs[i]) == -1) {
 
                 Console.WriteLine(" ");
                 Console.WriteLine(songs[i].title + ", by " + songs[i].artist + " added to your favourites.");
+
+                user.AddFavourite(songs[i]);
                 
                 SaveData();
                 return;
 
+            }
+
+            //song is already in user's favourites list
+            else if (user.favourites.IndexOf(songs[i]) != -1)
+            {
+
+                Console.WriteLine(" ");
+                Console.WriteLine("Song is already in your favourites list.");
+                return;
             }
 
         }
@@ -295,7 +345,33 @@ public class DataManagement {
 
     public static void RemoveSongFromFavourites(User user) {
 
+        Console.WriteLine(" ");
+        Console.WriteLine("Please enter the song title to be removed.");
 
+        //get user input
+        string input = Console.ReadLine();
+
+        //search for matches
+        for (int i = 0; i < user.favourites.Count; i++) {
+
+            //if there is a match
+            if (user.favourites[i].title.ToLower() == input.ToLower()) {
+
+                Console.WriteLine(" ");
+                Console.WriteLine(user.favourites[i].title + ", by " + user.favourites[i].artist + " removed from your favourites.");
+
+                user.favourites.RemoveAt(i);
+
+                SaveData();
+                return;
+
+            }
+
+        }
+
+        //no matches
+        Console.WriteLine(" ");
+        Console.WriteLine("No matches found.");
 
     }
 
@@ -344,15 +420,17 @@ public class Song {
 public class User {
 
     public string username;
+    public string password;
     public List<Song> favourites;
 
     //empty default constructor
     public User() {}
     
     //new user constructor
-    public User(string username) {
+    public User(string username, string password) {
 
         this.username = username;
+        this.password = password;
         favourites = new List<Song>();
 
     }
@@ -366,9 +444,17 @@ public class User {
 
     public void DisplayFavourites() {
 
+        Console.WriteLine(" ");
+
         for (int i = 0; i < favourites.Count; i++) {
 
             Console.WriteLine((i + 1) + ". " + favourites[i].title + ", by " + favourites[i].artist);
+
+        }
+
+        if (favourites.Count == 0) {
+
+            Console.WriteLine("No songs to display.");
 
         }
 
