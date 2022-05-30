@@ -38,7 +38,7 @@ public class PlantTracker {
         while (true) {
 
             Console.WriteLine(" ");
-            Console.WriteLine("It is " + DateTime.Now.ToString());
+            Console.WriteLine("It is " + DateTime.Now.ToString("f"));
             Console.WriteLine("Please select a user or add a user.");
 
             //list the users
@@ -74,13 +74,14 @@ public class PlantTracker {
 
             }
 
+            //user selects the "delete user" option
             else if (choice == users.Count + 1) {
 
                 DeleteUser();
 
             }
             
-            //user selects the "exit option
+            //user selects the "exit" option
             else if (choice == users.Count + 2) {
 
                 return;
@@ -96,10 +97,82 @@ public class PlantTracker {
     private static void LoadUser(int userIndex) {
 
         //get the current user
-        User currentUser = users[userIndex];
+        User user = users[userIndex];
 
         Console.WriteLine(" ");
-        Console.WriteLine("Welcome, " + currentUser.username + "!");
+        Console.WriteLine("Welcome, " + user.username + "!");
+
+        //login
+        Console.WriteLine("Please enter your password");
+        string password = Console.ReadLine();
+
+        //verification
+        if (password != user.password) {
+
+            Console.WriteLine(" ");
+            Console.WriteLine("Incorrect password!");
+            return;
+
+        }
+
+        Console.WriteLine(" ");
+        Console.WriteLine("Verification successful.");
+
+        //options
+        while (true) {
+
+            Console.WriteLine(" ");
+            Console.WriteLine("Please select a plant or add a new plant");
+
+            //list the user's plants
+            for (int i = 0; i < user.plants.Count; i++) {
+
+                Console.WriteLine("[" + i + "] " + user.plants[i].name);
+
+            }
+
+            //add user option
+            Console.WriteLine("[" + user.plants.Count + "] Add plant");
+
+            //delete user option
+            Console.WriteLine("[" + (user.plants.Count + 1) + "] Delete plant");
+
+            //logout
+            Console.WriteLine("[" + (user.plants.Count + 2) + "] Logout");
+
+            //take input
+            int choice = Int32.Parse(Console.ReadLine());
+
+            //an existing plant is selected
+            if (choice >= 0 && choice < user.plants.Count) {
+
+
+
+            }
+
+            //user selects the "add plant" option
+            else if (choice == user.plants.Count) {
+
+
+
+            }
+
+            //user selects the "delete plant" option
+            else if (choice == user.plants.Count + 1) {
+
+
+
+            }
+            
+            //user selects the "logout" option
+            else if (choice == user.plants.Count + 2) {
+
+                return;
+
+            }
+
+        //end of while loop
+        }
 
     }
 
@@ -112,17 +185,29 @@ public class PlantTracker {
         while (String.IsNullOrWhiteSpace(username) == true || username == "Add user" || username == "Delete user" || username == "Exit") {
 
             Console.WriteLine(" ");
-            Console.WriteLine("Please provide a username for the new user.");
+            Console.WriteLine("Please provide a username for the new user");
 
             //get the username
             username = Console.ReadLine();
 
-            //*****BONUS: MAKE IT ILLEGAL TO HAVE DUPLICATE USERS*****
+        }
+
+        string password = "";
+
+        //wait until they input an actual password
+        while (String.IsNullOrWhiteSpace(password) == true) {
+
+            Console.WriteLine(" ");
+            Console.WriteLine("Please provide a password for " + username);
+
+            //get the username
+            password = Console.ReadLine();
 
         }
 
+
         //add new user to the array
-        users.Add(new User(username));
+        users.Add(new User(username, password));
 
         SaveData();
 
@@ -158,6 +243,9 @@ public class PlantTracker {
 
             if (choice >= 0 && choice < users.Count) {
 
+                Console.WriteLine(" ");
+                Console.WriteLine("User deleted.");
+
                 users.RemoveAt(choice);
                 SaveData();
                 return;
@@ -191,20 +279,35 @@ public class PlantTracker {
 public class Plant {
 
     public string name;
+    public string type;
     public DateTime datePlanted;
     public DateTime lastWatered;
     public DateTime lastFertilized;
-    //public List<ArrayList> journal;
+    public List<Journal> journal;
 
     //empty default constructor
     public Plant() {}
 
-    //creating plant constructor
-    public Plant(string name) {
+    //creating new plant constructor
+    public Plant(string name, string type) {
 
         this.name = name;
+        this.type = type;
         datePlanted = DateTime.Now;
-        //journal = new List<ArrayList>();
+        journal = new List<Journal>();
+
+    }
+
+    //list the plant details
+    public void PlantDetails() {
+
+        Console.WriteLine(" ");
+        Console.WriteLine(name + " - " + type + " plant"); //name
+        Console.WriteLine("Date planted: " + datePlanted.ToString("D")); //date planted
+        Console.WriteLine("Last watered: " + lastWatered.ToString("f")); //last watered
+        Console.WriteLine("Last fertilized: " + lastFertilized.ToString("f")); //last fertilized
+        Console.WriteLine("Number of journal entries: " + journal.Count); //number of journal entries
+        Console.WriteLine("Last journal entry: " + journal[journal.Count - 1].date.ToString("D")); //date of last journal entry
 
     }
 
@@ -212,6 +315,8 @@ public class Plant {
     public void WaterPlant() {
 
         lastWatered = DateTime.Now;
+        Console.WriteLine(" ");
+        Console.WriteLine("Watering time recorded.");
 
     }
 
@@ -219,11 +324,22 @@ public class Plant {
     public void FertilizePlant() {
 
         lastFertilized = DateTime.Now;
+        Console.WriteLine(" ");
+        Console.WriteLine("Fertilizing time recorded.");
 
     }
 
     //new journal entry
     public void NewJournalEntry() {
+
+        Console.WriteLine(" ");
+        Console.WriteLine("Please begin typing your new journal entry:");
+
+        //collect user input
+        string content = Console.ReadLine();
+
+        journal.Add(new Journal(content));
+        Console.WriteLine("Entry saved.");
 
     }
 
@@ -239,18 +355,46 @@ public class Plant {
 
 }
 
+public class Journal {
+
+    public DateTime date;
+    public string content;
+
+    //empty default constructor
+    public Journal() {}
+
+    //creating new journal entry constructor
+    public Journal(string content) {
+
+        date = DateTime.Now;
+        this.content = content;
+
+    }
+
+}
+
 public class User {
 
     public string username;
+    public string password;
     public List<Plant> plants;
 
     //empty default constructor
     public User() {}
     
     //new user constructor
-    public User(string username) {
+    public User(string username, string password) {
 
         this.username = username;
+        this.password = password;
+        plants = new List<Plant>();
+
+    }
+
+    //add a plant
+    public void NewPlant(Plant plant) {
+
+        plants.Add(plant);
 
     }
 
