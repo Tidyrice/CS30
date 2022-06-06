@@ -118,7 +118,13 @@ public class PlantTracker {
         Console.WriteLine(" ");
         Console.WriteLine("Verification successful.");
 
-        //options
+        UserMenu(user);
+
+    }
+
+    //options menu
+    private static void UserMenu(User user) {
+
         while (true) {
 
             Console.WriteLine(" ");
@@ -146,21 +152,21 @@ public class PlantTracker {
             //an existing plant is selected
             if (choice >= 0 && choice < user.plants.Count) {
 
-
+                PlantMenu(user, choice);
 
             }
 
             //user selects the "add plant" option
             else if (choice == user.plants.Count) {
 
-
+                AddPlant(user);
 
             }
 
             //user selects the "delete plant" option
             else if (choice == user.plants.Count + 1) {
 
-
+                DeletePlant(user);
 
             }
             
@@ -200,7 +206,7 @@ public class PlantTracker {
             Console.WriteLine(" ");
             Console.WriteLine("Please provide a password for " + username);
 
-            //get the username
+            //get the password
             password = Console.ReadLine();
 
         }
@@ -213,6 +219,7 @@ public class PlantTracker {
 
     }
 
+    //delete user
     private static void DeleteUser() {
         
         //are there any users to delete?
@@ -252,6 +259,148 @@ public class PlantTracker {
 
             }
 
+        }
+
+    }
+
+    //add plant
+    private static void AddPlant(User user) {
+
+        string name = "";
+
+        //wait until they input a name
+        while (String.IsNullOrWhiteSpace(name) == true) {
+
+            Console.WriteLine(" ");
+            Console.WriteLine("Please provide a name for the new plant");
+
+            //get the name
+            name = Console.ReadLine();
+
+        }
+
+        string type = "";
+
+        //wait until they input an actual type
+        while (String.IsNullOrWhiteSpace(type) == true) {
+
+            Console.WriteLine(" ");
+            Console.WriteLine("What type of plant is " + name + "?");
+
+            //get the type
+            type = Console.ReadLine();
+
+        }
+
+
+        //add the plant to the user
+        user.NewPlant(new Plant(name, type));
+
+        SaveData();
+
+    }
+
+    //delete user
+    private static void DeletePlant(User user) {
+        
+        //are there any users to delete?
+        if (user.plants.Count == 0) {
+
+            Console.WriteLine(" ");
+            Console.WriteLine("There are no plants to delete.");
+            return;
+
+        }
+
+        int choice = -1;
+
+        while (true) {
+
+            Console.WriteLine(" ");
+            Console.WriteLine("Please select a user to delete.");
+
+            //list the plants
+            for (int i = 0; i < user.plants.Count; i++) {
+
+                Console.WriteLine("[" + i + "] " + user.plants[i].name);
+
+            }
+
+            //take input
+            choice = Int32.Parse(Console.ReadLine());
+
+            if (choice >= 0 && choice < user.plants.Count) {
+
+                Console.WriteLine(" ");
+                Console.WriteLine("Plant deleted.");
+
+                user.plants.RemoveAt(choice);
+                SaveData();
+                return;
+
+            }
+
+        }
+
+    }
+
+    //plant menu
+    private static void PlantMenu(User user, int plantIndex) {
+
+        //get the current plant
+        Plant plant = user.plants[plantIndex];
+
+        Console.WriteLine(" ");
+        Console.WriteLine("Plant name: " + plant.name);
+        Console.WriteLine("Type: " + plant.type);
+
+        //loop until the user exits
+        while (true) {
+
+            Console.WriteLine(" ");
+            Console.WriteLine("Please select an option");
+
+            Console.WriteLine("[0] Water the plant");
+            Console.WriteLine("[1] Fertilize the plant");
+            Console.WriteLine("[2] New journal entry");
+            Console.WriteLine("[3] Delete journal entry");
+            Console.WriteLine("[4] View journal entries");
+            Console.WriteLine("[5] Back");
+
+            //take input
+            int choice = Int32.Parse(Console.ReadLine());
+
+            switch (choice) {
+
+                case 0:
+                    plant.WaterPlant();
+                    break;
+
+                case 1:
+                    plant.FertilizePlant();
+                    break;
+
+                case 2:
+                    plant.NewJournalEntry();
+                    break;
+
+                case 3:
+                    plant.DeleteJournalEntry();
+                    break;
+
+                case 4:
+                    plant.ViewJournalEntries();
+                    break;
+
+                case 5:
+                    //go back
+                    return;
+
+                default:
+                    break;
+            }
+
+        //end of while loop
         }
 
     }
