@@ -350,16 +350,15 @@ public class PlantTracker {
         //get the current plant
         Plant plant = user.plants[plantIndex];
 
-        Console.WriteLine(" ");
-        Console.WriteLine("Plant name: " + plant.name);
-        Console.WriteLine("Type: " + plant.type);
-
         //loop until the user exits
         while (true) {
 
+            //plant details
+            plant.PlantDetails();
+
+            //options
             Console.WriteLine(" ");
             Console.WriteLine("Please select an option");
-
             Console.WriteLine("[0] Water the plant");
             Console.WriteLine("[1] Fertilize the plant");
             Console.WriteLine("[2] New journal entry");
@@ -400,6 +399,7 @@ public class PlantTracker {
                     break;
             }
 
+        SaveData();
         //end of while loop
         }
 
@@ -456,7 +456,7 @@ public class Plant {
         Console.WriteLine("Last watered: " + lastWatered.ToString("f")); //last watered
         Console.WriteLine("Last fertilized: " + lastFertilized.ToString("f")); //last fertilized
         Console.WriteLine("Number of journal entries: " + journal.Count); //number of journal entries
-        Console.WriteLine("Last journal entry: " + journal[journal.Count - 1].date.ToString("D")); //date of last journal entry
+        //Console.WriteLine("Last journal entry: " + journal[journal.Count - 1].date.ToString("D")); //date of last journal entry
 
     }
 
@@ -499,6 +499,27 @@ public class Plant {
 
     //view journal entries
     public void ViewJournalEntries() {
+
+        //are there any journal entries?
+        if (journal.Count == 0) {
+
+            Console.WriteLine(" ");
+            Console.WriteLine("No journal entries to display.");
+            return;
+
+        }
+
+        Console.WriteLine(" ");
+        Console.WriteLine("Listing journal entries:");
+
+        //list all entries (oldest --> newest)
+        for (int i = 0; i < journal.Count; i++) {
+
+            Console.WriteLine(" ");
+            Console.WriteLine(journal[i].date.ToString("f"));
+            Console.WriteLine(journal[i].content);
+
+        }
 
     }
 
