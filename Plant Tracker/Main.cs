@@ -88,6 +88,7 @@ public class PlantTracker {
 
             }
 
+        SaveData();
         //end of while loop
         }
 
@@ -176,7 +177,8 @@ public class PlantTracker {
                 return;
 
             }
-
+ 
+        SaveData();
         //end of while loop
         }
 
@@ -188,7 +190,7 @@ public class PlantTracker {
         string username = "";
 
         //wait until they input an actual username
-        while (String.IsNullOrWhiteSpace(username) == true || username == "Add user" || username == "Delete user" || username == "Exit") {
+        while (String.IsNullOrWhiteSpace(username) == true) {
 
             Console.WriteLine(" ");
             Console.WriteLine("Please provide a username for the new user");
@@ -215,8 +217,6 @@ public class PlantTracker {
         //add new user to the array
         users.Add(new User(username, password));
 
-        SaveData();
-
     }
 
     //delete user
@@ -231,8 +231,6 @@ public class PlantTracker {
 
         }
 
-        int choice = -1;
-
         while (true) {
 
             Console.WriteLine(" ");
@@ -246,7 +244,7 @@ public class PlantTracker {
             }
 
             //take input
-            choice = Int32.Parse(Console.ReadLine());
+            int choice = Int32.Parse(Console.ReadLine());
 
             if (choice >= 0 && choice < users.Count) {
 
@@ -254,7 +252,6 @@ public class PlantTracker {
                 Console.WriteLine("User deleted.");
 
                 users.RemoveAt(choice);
-                SaveData();
                 return;
 
             }
@@ -296,8 +293,6 @@ public class PlantTracker {
         //add the plant to the user
         user.NewPlant(new Plant(name, type));
 
-        SaveData();
-
     }
 
     //delete user
@@ -312,8 +307,6 @@ public class PlantTracker {
 
         }
 
-        int choice = -1;
-
         while (true) {
 
             Console.WriteLine(" ");
@@ -327,7 +320,7 @@ public class PlantTracker {
             }
 
             //take input
-            choice = Int32.Parse(Console.ReadLine());
+            int choice = Int32.Parse(Console.ReadLine());
 
             if (choice >= 0 && choice < user.plants.Count) {
 
@@ -335,7 +328,6 @@ public class PlantTracker {
                 Console.WriteLine("Plant deleted.");
 
                 user.plants.RemoveAt(choice);
-                SaveData();
                 return;
 
             }
@@ -494,6 +486,42 @@ public class Plant {
 
     //delete journal entry
     public void DeleteJournalEntry() {
+
+        //are there any journal entries to delete?
+        if (journal.Count == 0) {
+
+            Console.WriteLine(" ");
+            Console.WriteLine("There are no journal entries to delete.");
+            return;
+
+        }
+
+        while (true) {
+
+            Console.WriteLine(" ");
+            Console.WriteLine("Please select a journal entry to delete.");
+
+            //list the journal entries
+            for (int i = 0; i < journal.Count; i++) {
+
+                Console.WriteLine("[" + i + "] " + journal[i].date.ToString("f"));
+
+            }
+
+            //take input
+            int choice = Int32.Parse(Console.ReadLine());
+
+            if (choice >= 0 && choice < journal.Count) {
+
+                Console.WriteLine(" ");
+                Console.WriteLine("Journal entry deleted.");
+
+                journal.RemoveAt(choice);
+                return;
+
+            }
+
+        }
 
     }
 
