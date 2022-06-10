@@ -422,8 +422,8 @@ public class Plant {
     public string name;
     public string type;
     public DateTime datePlanted;
-    public DateTime lastWatered;
-    public DateTime lastFertilized;
+    public Nullable<DateTime> lastWatered;
+    public Nullable<DateTime> lastFertilized;
     public List<Journal> journal;
 
     //empty default constructor
@@ -445,10 +445,30 @@ public class Plant {
         Console.WriteLine(" ");
         Console.WriteLine(name + " - " + type + " plant"); //name
         Console.WriteLine("Date planted: " + datePlanted.ToString("D")); //date planted
-        Console.WriteLine("Last watered: " + lastWatered.ToString("f")); //last watered
-        Console.WriteLine("Last fertilized: " + lastFertilized.ToString("f")); //last fertilized
+
+        //has the plant been watered before?
+        if (lastWatered != null) {
+            Console.WriteLine("Last watered: " + lastWatered.ToString()); //last watered
+        } else {
+            Console.WriteLine("Last watered: N/A"); 
+        }
+
+
+        //has the plant been fertilized before?
+        if (lastFertilized != null) {
+            Console.WriteLine("Last fertilized: " + lastFertilized.ToString()); //last fertilized
+        } else {
+            Console.WriteLine("Last fertilized: N/A");
+        }
+
         Console.WriteLine("Number of journal entries: " + journal.Count); //number of journal entries
-        //Console.WriteLine("Last journal entry: " + journal[journal.Count - 1].date.ToString("D")); //date of last journal entry
+
+        //are there any journal entries?
+        if (journal.Count != 0) {
+            Console.WriteLine("Last journal entry: " + journal[journal.Count - 1].date.ToString("D")); //date of last journal entry
+        } else {
+            Console.WriteLine("Last journal entry: N/A");
+        }
 
     }
 
